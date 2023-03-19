@@ -1,8 +1,7 @@
-//import { performOperation } from './1'
-
 //takes in brackets (BEDMAS) LEFT TO RIGHT
 //assuming correct brackets
 //make sure that there aren't an operators at the 'ends' so (+v+) is not allowed
+//assuming that subtraction does exist but adding a negative numbers does
 function processString(inString) {
   if(inString === "") {
     return undefined;
@@ -91,6 +90,8 @@ ovo(ovo)ovo
 c
   c
 */
+
+//this will be continuously counted while the user enters values
 function validBrackets(str) {
   let count = 0;
   for(let i = 0; i < str.length; i++) {
