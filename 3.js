@@ -36,7 +36,7 @@ function processString(inString) {
 }
 
 function computeBEDMAS(string) {
-  let splitStr = string.split(/(?=[-+*//])|(?<=[-+*//])/g);//splits based on the operator and leaves it in as it's own character
+  let splitStr = string.split(/(?=[+*//])|(?<=[+*//])/g);//splits based on the operator and leaves it in as it's own character
   let leftOp;
   let rightOp;
 
@@ -74,17 +74,13 @@ function computeBEDMAS(string) {
       let val = splitStr[i-1] + splitStr[i+1];
       splitStr = [...splitStr.slice(0, i-1), val, ...splitStr.slice(i+2, splitStr.length)];
       i--;
-    } else if(splitStr[i] === '-') {
-      let val = splitStr[i-1] - splitStr[i+1];
-      splitStr = [...splitStr.slice(0, i-1), val, ...splitStr.slice(i+2, splitStr.length)];
-      i--;
     }
   }
 
   return [leftOp, splitStr[0], rightOp];
 }
 
-console.log(processString("154/(14*(1-2))"));
+console.log(processString("154/(14*(1+-2))"));
 /*
 o = operator
 v = value (or value to compute)
