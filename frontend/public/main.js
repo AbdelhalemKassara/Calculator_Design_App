@@ -7,7 +7,8 @@ const isDev = require('electron-is-dev');
 function createWindow() {
   //create the browser window
   const win = new BrowserWindow({
-    width: 800, height: 600,
+    width: 300, height: 600,
+    useContentSize: true,
     webPreferences: {
       enableRemoteModule: true
     }
