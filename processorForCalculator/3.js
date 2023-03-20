@@ -15,7 +15,8 @@ function processString(inString) {
     if(splitStr[i] === ')') {
       let [leftOp, val, rightOp] = computeBEDMAS(splitStr[i-1]);
       let str = (leftOp? leftOp : "") + String(val) + (rightOp? rightOp : "");
-      
+
+        ///asdf j;fsjdklkafjkdsfljakldfsalkjfdslkfdskdslsdflksdfljksdls;fdalsjdf (check if the right side can also be merged)
       //check if str can be merged with i-3
       let leftOff = 2
       if(splitStr[i-3] !== undefined && splitStr[i-3] !== ')' && splitStr[i-3] !== '(') {

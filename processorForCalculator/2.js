@@ -29,7 +29,7 @@ function processString(inArray) {
       val1 /= val2;
 
       if(val1 < 0) {
-        val1 *= -1;
+        val1 *= -1; //math.floor rounds down for negative numbers (not up towards 0)
         stack.push(Math.floor(val1) * -1);    
       } else {
         stack.push(Math.floor(val1));
