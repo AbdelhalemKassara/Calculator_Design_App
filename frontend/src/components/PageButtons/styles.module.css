@@ -1,7 +1,6 @@
 .buttonContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  max-height: 100vh;
   background-color: white;
 }
 
@@ -30,11 +29,11 @@ button:active {
 }
 
 .buttonR5 {
-  height: calc(80vh/5);
+  height: calc(75vh/5);
 }
 
 .buttonR6 {
-  height: calc(80vh/6);
+  height: calc(75vh/6);
 }
 
 .numberBut {

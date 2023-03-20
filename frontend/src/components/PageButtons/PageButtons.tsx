@@ -47,7 +47,7 @@ export default function PageButtons({calcType} : Props) {
 
       <button className={`${styles.But0} ${buttonStyle} ${styles.numberBut}`}>0</button>
       <button className={`${buttonStyle} ${styles.numberBut}`}>.</button>
-      <button className={`${buttonStyle} ${calcType == 'brack' ? styles.butEqBrack : ''} ${styles.operationBut}`}>=</button>
+      <button className={`${buttonStyle} ${calcType == 'brack' ? styles.butEqBrack : ''} ${styles.operationBut}`}>{calcType === 'rpn' ? 'enter' : '='}</button>
     </div>
 
   </>)
