@@ -18,7 +18,7 @@ export default function PageButtons({calcType} : Props) {
             <button className={`${buttonStyle} ${styles.optionBut}`}>(</button>
             <button className={`${buttonStyle} ${styles.optionBut}`}>)</button>
             <button className={`${buttonStyle} ${styles.optionBut}`}>+/-</button>
-            <div></div>
+            <div className={styles.divPlaceholder}></div>
           </>);
         } else {
           return (<></>);

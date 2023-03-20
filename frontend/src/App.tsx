@@ -1,11 +1,11 @@
 import React from 'react';
 import PageButtons from './components/PageButtons/PageButtons';
-import Calculator1 from './Pages/Calculator1';
+import InfixCalculator from './Pages/InfixCalculator';
 
 function App() {
   return (
     <div className="App">
-      <Calculator1 />
+      <InfixCalculator />
     </div>
   );
 }
