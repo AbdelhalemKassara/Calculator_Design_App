@@ -5,7 +5,10 @@ import styles from './styles.module.css';
 
 export default function InfixCalculator() {
   const [keyPressed] = useState(() => {return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'c', '/', '*', '+', '-', '.', '=']});
-  const [total, pushToCalculator] = useInfixCalc();
+  const [dispVal, pushToCalculator] = useInfixCalc();
+ 
+
+  
 
   useEffect(() => {
     document.addEventListener('keyup', checkKey);
@@ -20,8 +23,8 @@ export default function InfixCalculator() {
   }, [])
   return (<>
     <div className={styles.textContainer}>
-      <p>{total}</p>
+      <p>{dispVal}</p>
     </div>
-      <PageButtons calcType='infix'/>
+      <PageButtons calcType='infix' pushToCalculator={pushToCalculator}/>
   </>)
 }

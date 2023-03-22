@@ -5,18 +5,27 @@ export default function useInfixCalc() {
   const [strStack, setStrStack] = useState<string>('');
   const [firstVal, setFirstVal] = useState(true);
   const [nextOperation, setNextOperation] = useState<string>('');
+  const [dispVal, setDispVal] = useState<string>('');
 
   //shove this into a useEffect for strStack
   //and create a function that only 
   const pushToCalculator = (lastChar: string): void => {
 
-    const isLastCharOp = (lastChar === '-' || lastChar === '+' || lastChar === '/' || lastChar === '*' || lastChar === '=');
+    if(lastChar === 'c') {
+      if(strStack === '') {
+        setTotal(0);
+        setFirstVal(true);
+      } 
+      setStrStack('');
+    }
 
+    const isLastCharOp = (lastChar === '-' || lastChar === '+' || lastChar === '/' || lastChar === '*' || lastChar === '=');
+     
     if(isLastCharOp) {
-      setFirstVal(false);
       console.log('firstVal func', firstVal)
       if(firstVal) {
         setTotal(Number(strStack));
+        setFirstVal(false);
         setStrStack('');
       } else {
         switch(nextOperation) {
@@ -38,21 +47,21 @@ export default function useInfixCalc() {
             break;
           case '=':
             setStrStack('');
+            setDispVal(total.toString());
             break;
         }
       }
 
       setNextOperation(lastChar);
     } else {
-      setStrStack(curStack => curStack + lastChar);
+      setStrStack(curStack => {
+        const updatedStack = curStack + lastChar;
+        setDispVal(updatedStack);
+        return updatedStack;
+      });
     }
-
   };
 
-
-  useEffect(() => {
-    console.log(firstVal, "first Val useEff");
-  }, [firstVal])
   
-  return [total, pushToCalculator] as const
+  return [dispVal, pushToCalculator] as const
 }

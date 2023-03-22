@@ -5,9 +5,10 @@ import R6Styles from './R6Styles.module.css';
 
 interface Props {
   calcType : 'infix' | 'rpn' | 'brack';
+  pushToCalculator: Function
 }
 
-export default function PageButtons({calcType} : Props) {
+export default function PageButtons({calcType, pushToCalculator} : Props) {
   const buttonStyle = (calcType === 'brack'? styles.buttonR6 : styles.buttonR5);
 
   return (<>
@@ -15,8 +16,8 @@ export default function PageButtons({calcType} : Props) {
       {(() => {
         if(calcType === 'brack') {
           return (<>
-            <button className={`${buttonStyle} ${styles.optionBut}`}>(</button>
-            <button className={`${buttonStyle} ${styles.optionBut}`}>)</button>
+            <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator('(')}>(</button>
+            <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator(')')}>)</button>
             <button className={`${buttonStyle} ${styles.optionBut}`}>+/-</button>
             <div className={styles.divPlaceholder}></div>
           </>);
@@ -25,29 +26,29 @@ export default function PageButtons({calcType} : Props) {
         }
       })()}
 
-      <button className={`${buttonStyle} ${styles.optionBut}`}>AC</button>
+      <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator('c')}>AC</button>
       <button className={`${buttonStyle} ${styles.optionBut}`}>M</button>
       <button className={`${buttonStyle} ${styles.optionBut}`}>MR</button>
-      <button className={`${buttonStyle} ${styles.operationBut}`}>/</button>
+      <button className={`${buttonStyle} ${styles.operationBut}`} onClick={() => pushToCalculator('/')}>/</button>
 
-      <button className={`${buttonStyle} ${styles.numberBut}`}>7</button>
-      <button className={`${buttonStyle} ${styles.numberBut}`}>8</button>
-      <button className={`${buttonStyle} ${styles.numberBut}`}>9</button>
-      <button className={`${buttonStyle} ${styles.operationBut}`}>x</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('7')}>7</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('8')}>8</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('9')}>9</button>
+      <button className={`${buttonStyle} ${styles.operationBut}`} onClick={() => pushToCalculator('*')}>x</button>
 
-      <button className={`${buttonStyle} ${styles.numberBut}`}>4</button>
-      <button className={`${buttonStyle} ${styles.numberBut}`}>5</button>
-      <button className={`${buttonStyle} ${styles.numberBut}`}>6</button>
-      <button className={`${buttonStyle} ${styles.operationBut}`}>-</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('4')}>4</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('5')}>5</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('6')}>6</button>
+      <button className={`${buttonStyle} ${styles.operationBut}`} onClick={() => pushToCalculator('-')}>-</button>
       
-      <button className={`${buttonStyle} ${styles.numberBut}`}>1</button>
-      <button className={`${buttonStyle} ${styles.numberBut}`}>2</button>
-      <button className={`${buttonStyle} ${styles.numberBut}`}>3</button>
-      <button className={`${buttonStyle} ${styles.operationBut}`}>+</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('1')}>1</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('2')}>2</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('3')}>3</button>
+      <button className={`${buttonStyle} ${styles.operationBut}`} onClick={() => pushToCalculator('+')}>+</button>
 
-      <button className={`${styles.But0} ${buttonStyle} ${styles.numberBut}`}>0</button>
-      <button className={`${buttonStyle} ${styles.numberBut}`}>.</button>
-      <button className={`${buttonStyle} ${calcType == 'brack' ? styles.butEqBrack : ''} ${styles.operationBut}`}>{calcType === 'rpn' ? 'enter' : '='}</button>
+      <button className={`${styles.But0} ${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('0')}>0</button>
+      <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('.')}>.</button>
+      <button className={`${buttonStyle} ${calcType == 'brack' ? styles.butEqBrack : ''} ${styles.operationBut}`} onClick={() => pushToCalculator('=')}>{calcType === 'rpn' ? 'enter' : '='}</button>
     </div>
 
   </>)
