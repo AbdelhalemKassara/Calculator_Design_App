@@ -4,10 +4,11 @@ import styles from './styles.module.css';
 
 export default function BracketsCalculator() {
   function pushToCalculator() {}
+  function isAC() {}
   return (<>
     <div className={styles.textContainer}>
       
     </div>
-      <PageButtons calcType='brack' pushToCalculator={pushToCalculator}/>
+      <PageButtons calcType='brack' pushToCalculator={pushToCalculator} isAC={isAC}/>
   </>)
 }

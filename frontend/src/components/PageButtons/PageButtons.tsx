@@ -5,10 +5,11 @@ import R6Styles from './R6Styles.module.css';
 
 interface Props {
   calcType : 'infix' | 'rpn' | 'brack';
-  pushToCalculator: Function
+  pushToCalculator: Function,
+  isAC: Function
 }
 
-export default function PageButtons({calcType, pushToCalculator} : Props) {
+export default function PageButtons({calcType, pushToCalculator, isAC} : Props) {
   const buttonStyle = (calcType === 'brack'? styles.buttonR6 : styles.buttonR5);
 
   return (<>
@@ -26,7 +27,7 @@ export default function PageButtons({calcType, pushToCalculator} : Props) {
         }
       })()}
 
-      <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator('c')}>AC</button>
+      <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator('c')}>{isAC()? 'AC' : 'C'}</button>
       <button className={`${buttonStyle} ${styles.optionBut}`}>M</button>
       <button className={`${buttonStyle} ${styles.optionBut}`}>MR</button>
       <button className={`${buttonStyle} ${styles.operationBut}`} onClick={() => pushToCalculator('/')}>/</button>

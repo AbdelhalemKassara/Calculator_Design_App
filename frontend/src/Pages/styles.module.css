@@ -2,3 +2,7 @@
   height: 20vh;
   width: 100vw;
 }
+
+p {
+  display: inline;
+}

@@ -4,10 +4,11 @@ import styles from './styles.module.css';
 
 export default function RPNCalculator() {
   function pushToCalculator() {}
+  function isAC() {}
   return (<>
     <div className={styles.textContainer}>
 
     </div>
-      <PageButtons calcType='rpn' pushToCalculator={pushToCalculator}/>
+      <PageButtons calcType='rpn' pushToCalculator={pushToCalculator} isAC={isAC}/>
   </>)
 }

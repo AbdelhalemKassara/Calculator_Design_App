@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 
+type state = 'total' | 'strStack';
+
 export default function useInfixCalc() {
   const [total, setTotal] = useState<number>(0);
   const [strStack, setStrStack] = useState<string>('');
   const [firstVal, setFirstVal] = useState(true);
   const [nextOperation, setNextOperation] = useState<string>('');
-  const [dispVal, setDispVal] = useState<string>('');
+  const [dispVal, setDispVal] = useState<state>('total');
 
   //shove this into a useEffect for strStack
   //and create a function that only 
@@ -17,12 +19,11 @@ export default function useInfixCalc() {
         setFirstVal(true);
       } 
       setStrStack('');
+      setDispVal('strStack');
+      return;
     }
-
-    const isLastCharOp = (lastChar === '-' || lastChar === '+' || lastChar === '/' || lastChar === '*' || lastChar === '=');
      
-    if(isLastCharOp) {
-      console.log('firstVal func', firstVal)
+    if(lastChar === '-' || lastChar === '+' || lastChar === '/' || lastChar === '*' || lastChar === '=') {
       if(firstVal) {
         setTotal(Number(strStack));
         setFirstVal(false);
@@ -30,38 +31,48 @@ export default function useInfixCalc() {
       } else {
         switch(nextOperation) {
           case '-':
-            setTotal(curTotal => curTotal - Number(strStack.slice(0, strStack.length-2)));
+            setTotal(curTotal => curTotal - Number(strStack));
             setStrStack('');
             break;
           case '+':
-            setTotal(curTotal => curTotal + Number(strStack.slice(0, strStack.length-2)));
+            setTotal(curTotal => curTotal + Number(strStack));
             setStrStack('');
             break;
           case '*':
-            setTotal(curTotal => curTotal * Number(strStack.slice(0, strStack.length-2)));
+            setTotal(curTotal => curTotal * Number(strStack));
             setStrStack('');
             break;
           case '/':
-            setTotal(curTotal => curTotal / Number(strStack.slice(0, strStack.length-2)));
+            setTotal(curTotal => curTotal / Number(strStack));
             setStrStack('');
             break;
           case '=':
             setStrStack('');
-            setDispVal(total.toString());
             break;
         }
+        setDispVal('total');
       }
 
       setNextOperation(lastChar);
     } else {
-      setStrStack(curStack => {
-        const updatedStack = curStack + lastChar;
-        setDispVal(updatedStack);
-        return updatedStack;
-      });
+      setStrStack(curStack => curStack + lastChar);
+      setDispVal('strStack');
     }
+    
   };
 
+
+  function getDispVal() {
+    if(dispVal === 'strStack') {
+      return strStack;
+    } else {
+      return total;
+    }
+  }
+
+  function isAC() {
+    return strStack.length === 0;
+  }
   
-  return [dispVal, pushToCalculator] as const
+  return [getDispVal, pushToCalculator, isAC] as const
 }
