@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import BracketsCalculator from './Pages/BracketsCalculator';
-import InfixCalculator from './Pages/InfixCalculator';
+import InfixCalculator from './Pages/InfixCalculator/InfixCalculator';
 import RPNCalculator from './Pages/RPNCalculator';
 
 function App() {

@@ -5,4 +5,9 @@
 
 p {
   display: inline;
+  font-size: 10vmin;
+}
+
+.operation {
+  font-size: 5vmin;
 }

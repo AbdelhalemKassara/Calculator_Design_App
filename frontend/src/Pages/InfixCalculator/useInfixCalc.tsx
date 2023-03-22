@@ -16,6 +16,7 @@ export default function useInfixCalc() {
     if(lastChar === 'c') {
       if(strStack === '') {
         setTotal(0);
+        setNextOperation('');
         setFirstVal(true);
       } 
       setStrStack('');
@@ -74,5 +75,5 @@ export default function useInfixCalc() {
     return strStack.length === 0;
   }
   
-  return [getDispVal, pushToCalculator, isAC] as const
+  return [getDispVal, pushToCalculator, isAC, nextOperation] as const
 }
