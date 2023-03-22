@@ -33,7 +33,7 @@ export default function PageButtons({calcType} : Props) {
       <button className={`${buttonStyle} ${styles.numberBut}`}>7</button>
       <button className={`${buttonStyle} ${styles.numberBut}`}>8</button>
       <button className={`${buttonStyle} ${styles.numberBut}`}>9</button>
-      <button className={`${buttonStyle} ${styles.operationBut}`}>X</button>
+      <button className={`${buttonStyle} ${styles.operationBut}`}>x</button>
 
       <button className={`${buttonStyle} ${styles.numberBut}`}>4</button>
       <button className={`${buttonStyle} ${styles.numberBut}`}>5</button>
