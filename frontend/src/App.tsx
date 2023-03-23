@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
-import BracketsCalculator from './Pages/BracketsCalculator';
+import BracketsCalculator from './Pages/BracketsCalculator/BracketsCalculator';
 import InfixCalculator from './Pages/InfixCalculator/InfixCalculator';
-import RPNCalculator from './Pages/RPNCalculator';
+import RPNCalculator from './Pages/RPNCalculator/RPNCalculator';
 
 function App() {
   return (

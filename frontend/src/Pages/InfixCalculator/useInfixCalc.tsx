@@ -1,13 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useState } from "react";
 
-type state = 'total' | 'strStack';
 
 export default function useInfixCalc() {
   const [total, setTotal] = useState<number>(0);
   const [strStack, setStrStack] = useState<string>('');
   const [firstVal, setFirstVal] = useState(true);
   const [nextOperation, setNextOperation] = useState<string>('');
-  const [dispVal, setDispVal] = useState<state>('total');
+  const [dispVal, setDispVal] = useState<('total' | 'strStack')>('total');
 
   //shove this into a useEffect for strStack
   //and create a function that only 
@@ -62,6 +61,9 @@ export default function useInfixCalc() {
     
   };
 
+  useEffect(() => {
+    console.log(nextOperation);
+  }, [nextOperation])
 
   function getDispVal() {
     if(dispVal === 'strStack') {

@@ -1,7 +1,5 @@
 import React from 'react'
 import styles from './styles.module.css';
-import R5Styles from './R5Styles.module.css';
-import R6Styles from './R6Styles.module.css';
 
 interface Props {
   calcType : 'infix' | 'rpn' | 'brack';
@@ -19,7 +17,7 @@ export default function PageButtons({calcType, pushToCalculator, isAC} : Props) 
           return (<>
             <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator('(')}>(</button>
             <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator(')')}>)</button>
-            <button className={`${buttonStyle} ${styles.optionBut}`}>+/-</button>
+            <div className={styles.divPlaceholder}></div>
             <div className={styles.divPlaceholder}></div>
           </>);
         } else {
@@ -49,7 +47,7 @@ export default function PageButtons({calcType, pushToCalculator, isAC} : Props) 
 
       <button className={`${styles.But0} ${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('0')}>0</button>
       <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('.')}>.</button>
-      <button className={`${buttonStyle} ${calcType == 'brack' ? styles.butEqBrack : ''} ${styles.operationBut}`} onClick={() => pushToCalculator('=')}>{calcType === 'rpn' ? 'enter' : '='}</button>
+      <button className={`${buttonStyle} ${calcType === 'brack' ? styles.butEqBrack : ''} ${styles.operationBut}`} onClick={() => pushToCalculator('=')}>{calcType === 'rpn' ? 'enter' : '='}</button>
     </div>
 
   </>)
