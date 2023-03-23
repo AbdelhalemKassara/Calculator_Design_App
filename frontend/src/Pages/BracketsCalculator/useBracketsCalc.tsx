@@ -9,19 +9,27 @@ export default function useBracketsCalc() {
 
   function pushToCalculator(nextChar: string) {
     if(nextChar === '=') {
-      calculateResult();
-      setDispResult(true);
-      return;
+      let prevChar = strStack.charAt(strStack.length-1);
+      if(prevChar !== '(') {
+        calculateResult();
+        setDispResult(true);
+        return;  
+      }
     } 
     else if(nextChar === 'c') {
       setStrStack('');
     } 
     else if(nextChar === '(') {
-      setBrackCount(curCount => curCount + 1);
-      setStrStack(curStr => curStr + nextChar);
+      //check if there is an operation before adding a '('
+      const prevChar = strStack.charAt(strStack.length-1);
+      if(prevChar === '(' || operations.find(op => op === prevChar)) {
+        setBrackCount(curCount => curCount + 1);
+        setStrStack(curStr => curStr + nextChar);  
+      }
     } 
     else if (nextChar === ')') {
-      if(bracketsCount-1 >= 0) {
+      let prevChar = strStack.charAt(strStack.length-1);
+      if(bracketsCount-1 >= 0 && prevChar !== '(') {
         setBrackCount(curCount => curCount - 1);
 
         setStrStack(curStr => {
@@ -35,8 +43,9 @@ export default function useBracketsCalc() {
     } 
     //checks if the current character is an operation 
     else if(operations.find(op => op === nextChar)) {
-      //checks if the previous is not an operation
-      if(!operations.find(op => op === strStack.charAt(strStack.length-1))) {
+      //checks if the previous is not an operation or an opening bracket
+      const prevChar = strStack.charAt(strStack.length-1);
+      if(!operations.find(op => op === prevChar) && prevChar !== '(') {
         setStrStack(curStr => curStr + nextChar);
       }
     } else {
@@ -48,6 +57,8 @@ export default function useBracketsCalc() {
 
 
   function calculateResult() {
+    //do some checking here to see if there is any bad formatting
+
     let outStr = strStack;
 
     //removes the last character if it is an operation
@@ -82,22 +93,28 @@ function processString(inString: any) {
 
   let i = 0;
   while(splitStr.length !== 1) {
+
     if(splitStr[i] === ')') {
       let [leftOp, val, rightOp] = computeBEDMAS(splitStr[i-1]);
       let str = (leftOp? leftOp : "") + String(val) + (rightOp? rightOp : "");
 
-        ///asdf j;fsjdklkafjkdsfljakldfsalkjfdslkfdskdslsdflksdfljksdls;fdalsjdf (check if the right side can also be merged)
-      //check if str can be merged with i-3
+      //check if str can be merged with i-3 (the left side)
       let leftOff = 2
       if(splitStr[i-3] !== undefined && splitStr[i-3] !== ')' && splitStr[i-3] !== '(') {
         str = splitStr[i-3] + str;
         leftOff = 3;
       }
 
+      //check if str can be merged with i+1 (the right side)
+      let rightOff = i+1;
+      if(splitStr[rightOff] !== undefined && splitStr[rightOff] !== '(' && splitStr[rightOff] !== ')') {
+        str += splitStr[rightOff];
+        rightOff++;
+      }
+
       //remove the brackets and insert the value
-      splitStr = [...splitStr.slice(0, i-leftOff), str, ...splitStr.slice(i+1, splitStr.length)]; //since the format is ( ,stuff, ) and we are at )
+      splitStr = [...splitStr.slice(0, i-leftOff), str, ...splitStr.slice(rightOff, splitStr.length)]; //since the format is ( ,stuff, ) and we are at )
       i = 0;
-      console.log(splitStr);
     }
     i++;
   }
@@ -149,11 +166,6 @@ function computeBEDMAS(string: any) {
 
     return [leftOp, splitStr[0], rightOp];
   }
-
-  useEffect(() => {
-    console.log(strStack);
-  }, [strStack]);
-
 
   return [dispResult, pushToCalculator, result, isAC, strStack] as const;
 }
