@@ -2,12 +2,17 @@ import React, {useState, useEffect} from 'react'
 import PageButtons from '../../components/PageButtons/PageButtons'
 import useInfixCalc from './useInfixCalc';
 import styles from '../styles.module.css';
+import useKeyLogger from '../../components/KeyLogger/useKeyLogger';
+const { ipcRenderer } = window.require('electron');
 
-export default function InfixCalculator() {
-  const [keyPressed] = useState(() => {return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'c', '/', '*', '+', '-', '.', '=']});
-  const [getDispVal, pushToCalculator, isAC, nextOperation] = useInfixCalc();
-
+interface Props {
+  userName : string
+}
+export default function InfixCalculator({userName} : Props): JSX.Element {
+  //const [keyPressed] = useState(() => {return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'c', '/', '*', '+', '-', '.', '=']});
+  const [getDispVal, pushToCalculator, isAC, nextOperation] = useInfixCalc(userName);
   
+  /*
   useEffect(() => {
     document.addEventListener('keyup', checkKey);
 
@@ -18,7 +23,8 @@ export default function InfixCalculator() {
     }
     return () => document.removeEventListener('keyup', checkKey);
   }, [])
-
+  */
+  
   return (<>
     <div className={styles.textContainer}>
       <p>{getDispVal()}</p>
@@ -28,3 +34,4 @@ export default function InfixCalculator() {
       <PageButtons calcType='infix' pushToCalculator={pushToCalculator} isAC={isAC}/>
   </>)
 }
+

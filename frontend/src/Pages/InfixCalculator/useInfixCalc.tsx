@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
+import useKeyLogger from "../../components/KeyLogger/useKeyLogger";
 
-
-export default function useInfixCalc() {
+export default function useInfixCalc(userName: string) {
   const [total, setTotal] = useState<number>(0);
   const [strStack, setStrStack] = useState<string>('');
   const [firstVal, setFirstVal] = useState(true);
   const [nextOperation, setNextOperation] = useState<string>('');
   const [dispVal, setDispVal] = useState<('total' | 'strStack')>('total');
   const [usedDot, setUsedDot] = useState<boolean>(false);
-  
+  const [logKey] = useKeyLogger(userName, 'infix');
+
   //shove this into a useEffect for strStack
   //and create a function that only 
   const pushToCalculator = (lastChar: string): void => {
+    logKey(lastChar);
 
     if(lastChar === 'c') {
       setUsedDot(false);

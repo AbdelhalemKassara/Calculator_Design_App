@@ -1,9 +1,7 @@
-.header {
+.headerPages {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 5vh;
-  background-color: grey;
 }
 
 .link {
@@ -14,4 +12,14 @@
 
 .curLink {
   font-weight: bold;
+}
+
+.userName {
+  font-size: medium;
+  font-weight: bold;
+}
+
+.header {
+  height: 9vh;
+  background-color: grey;
 }
