@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
+import useKeyLogger from '../../components/KeyLogger/useKeyLogger';
 
-export default function useRPNCalc() {
+
+export default function useRPNCalc(userName: string) {
   const [stack, setStack] = useState<Array<number>>([0]);
   const [curVal, setCurVal] = useState<string>('0');//we are using a string for the current value as we can't store the value accuratly as a number because of floating point number error, ex 0.005 = 0.004999999999
+  const [logKey] = useKeyLogger(userName, 'rpn');
 
   function pushToCalculator(nextChar: string) {
+    logKey(nextChar);
+
     if(nextChar === '+' || nextChar === '-' || nextChar === '*' || nextChar === '/') {
       computeVals(nextChar);//need check if user presses multiple times
     } 

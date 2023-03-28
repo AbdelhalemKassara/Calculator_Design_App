@@ -14,8 +14,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate replace to="/infix" />} />
             <Route path="/infix" element={<InfixCalculator userName={userName}/>}/>
-            <Route path="/brackets" element={<BracketsCalculator />}/>
-            <Route path="/rpn" element={<RPNCalculator />}/>
+            <Route path="/brackets" element={<BracketsCalculator userName={userName}/>}/>
+            <Route path="/rpn" element={<RPNCalculator userName={userName}/>}/>
           </Routes>
         </div>
   );

@@ -3,8 +3,11 @@ import PageButtons from '../../components/PageButtons/PageButtons'
 import useRPNCalc from './useRPNCalc';
 import styles from './styles.module.css';
 
-export default function RPNCalculator() {
-  const [pushToCalculator, isAC, curVal, stack] = useRPNCalc();
+interface Props {
+  userName: string
+}
+export default function RPNCalculator({userName} : Props) {
+  const [pushToCalculator, isAC, curVal, stack] = useRPNCalc(userName);
   const stackValues = useRef<HTMLDivElement>(null);
   
   function buttonScroll(up: boolean) {

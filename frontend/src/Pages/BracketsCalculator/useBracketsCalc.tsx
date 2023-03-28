@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import useKeyLogger from '../../components/KeyLogger/useKeyLogger';
 
-export default function useBracketsCalc() {
+export default function useBracketsCalc(userName: string) {
   const [strStack, setStrStack] = useState<string>('');
   const [result, setResult] = useState<number>(0);
   const [dispResult, setDispResult] = useState<boolean>(false);
   const [bracketsCount, setBrackCount] = useState<number>(0);
   const [operations] = useState(() => {return ['/', '*', '+', '-']});
+  const [logKey] = useKeyLogger(userName, 'brackets');
 
   function pushToCalculator(nextChar: string) {
+    logKey(nextChar);
+    
     if(nextChar === '=') {
       let prevChar = strStack.charAt(strStack.length-1);
       if(prevChar !== '(') {
