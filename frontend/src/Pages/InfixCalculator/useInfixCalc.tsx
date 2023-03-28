@@ -7,12 +7,14 @@ export default function useInfixCalc() {
   const [firstVal, setFirstVal] = useState(true);
   const [nextOperation, setNextOperation] = useState<string>('');
   const [dispVal, setDispVal] = useState<('total' | 'strStack')>('total');
-
+  const [usedDot, setUsedDot] = useState<boolean>(false);
+  
   //shove this into a useEffect for strStack
   //and create a function that only 
   const pushToCalculator = (lastChar: string): void => {
 
     if(lastChar === 'c') {
+      setUsedDot(false);
       if(strStack === '') {
         setTotal(0);
         setNextOperation('');
@@ -24,46 +26,47 @@ export default function useInfixCalc() {
     }
      
     if(lastChar === '-' || lastChar === '+' || lastChar === '/' || lastChar === '*' || lastChar === '=') {
+      
       if(firstVal) {
         setTotal(Number(strStack));
         setFirstVal(false);
-        setStrStack('');
       } else {
         switch(nextOperation) {
           case '-':
             setTotal(curTotal => curTotal - Number(strStack));
-            setStrStack('');
             break;
           case '+':
-            setTotal(curTotal => curTotal + Number(strStack));
-            setStrStack('');
+
+            setTotal(curTotal => {
+              return curTotal + Number(strStack)});
             break;
           case '*':
             setTotal(curTotal => curTotal * Number(strStack));
-            setStrStack('');
             break;
           case '/':
             setTotal(curTotal => curTotal / Number(strStack));
-            setStrStack('');
             break;
           case '=':
-            setStrStack('');
             break;
         }
         setDispVal('total');
       }
 
+      setUsedDot(false);
+      setStrStack(() => '');
       setNextOperation(lastChar);
     } else {
-      setStrStack(curStack => curStack + lastChar);
-      setDispVal('strStack');
-    }
-    
-  };
+      if(lastChar === '.' && !usedDot) {
+        setStrStack(curStack => curStack + lastChar);
+        setDispVal('strStack');
+        setUsedDot(true);
+      } else if(lastChar !== '.') {
+        setStrStack(curStack => curStack + lastChar);
+        setDispVal('strStack');
+      }
 
-  useEffect(() => {
-    console.log(nextOperation);
-  }, [nextOperation])
+    }
+  };
 
   function getDispVal() {
     if(dispVal === 'strStack') {
