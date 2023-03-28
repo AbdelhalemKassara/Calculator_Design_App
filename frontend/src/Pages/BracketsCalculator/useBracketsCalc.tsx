@@ -48,8 +48,15 @@ export default function useBracketsCalc() {
       if(!operations.find(op => op === prevChar) && prevChar !== '(') {
         setStrStack(curStr => curStr + nextChar);
       }
-    } else {
-      setStrStack(curStr => curStr + nextChar);
+    } else if(!Number.isNaN(nextChar)) {
+
+      setStrStack(curStr => {
+        if(curStr.charAt(curStr.length-1) === ')') {
+        return curStr
+        } else {
+          return curStr + nextChar;
+        }
+      });
     }
 
     setDispResult(false);
@@ -79,10 +86,17 @@ export default function useBracketsCalc() {
     return strStack.length === 0;
   }
 
-  //takes in brackets (BEDMAS) LEFT TO RIGHT
+ 
+
+  return [dispResult, pushToCalculator, result, isAC, strStack] as const;
+}
+
+
+
+//takes in brackets (BEDMAS) LEFT TO RIGHT
 //assuming correct brackets
 //make sure that there aren't an operators at the 'ends' so (+v+) is not allowed
-//assuming that subtraction does exist but adding a negative numbers does
+//bedmas function (also this) doesn't accept negative numbers
 function processString(inString: any) {
   if(inString === "") {
     return undefined;
@@ -95,8 +109,7 @@ function processString(inString: any) {
   while(splitStr.length !== 1) {
 
     if(splitStr[i] === ')') {
-      let [leftOp, val, rightOp] = computeBEDMAS(splitStr[i-1]);
-      let str = (leftOp? leftOp : "") + String(val) + (rightOp? rightOp : "");
+      let str = computeBEDMAS(splitStr[i-1]);
 
       //check if str can be merged with i-3 (the left side)
       let leftOff = 2
@@ -111,7 +124,6 @@ function processString(inString: any) {
         str += splitStr[rightOff];
         rightOff++;
       }
-
       //remove the brackets and insert the value
       splitStr = [...splitStr.slice(0, i-leftOff), str, ...splitStr.slice(rightOff, splitStr.length)]; //since the format is ( ,stuff, ) and we are at )
       i = 0;
@@ -123,18 +135,7 @@ function processString(inString: any) {
 }
 
 function computeBEDMAS(string: any) {
-  let splitStr = string.split(/(?=[+*//])|(?<=[+*//])/g);//splits based on the operator and leaves it in as it's own character
-  let leftOp;
-  let rightOp;
-
-  //remove the left and right operators if they exist
-  if(isNaN(splitStr[0])) {
-    leftOp = splitStr.shift(); //returns the first element and removes it from the array
-  } 
-  if(isNaN(splitStr[splitStr.length - 1])) {
-    rightOp = splitStr.pop();
-  }
-
+  let splitStr = string.split(/(?=[+*-//])|(?<=[+*-//])/g);//splits based on the operator and leaves it in as it's own character
   //covert everything that is a number to a number
   for(let i = 0; i < splitStr.length; i++) {
     if(!isNaN(splitStr[i])) {
@@ -155,17 +156,18 @@ function computeBEDMAS(string: any) {
     }
   }
 
+
   //addtion/subtraction
   for(let i = 0; i < splitStr.length; i++) {
     if(splitStr[i] === '+') {
       let val = splitStr[i-1] + splitStr[i+1];
       splitStr = [...splitStr.slice(0, i-1), val, ...splitStr.slice(i+2, splitStr.length)];
       i--;
+    } else if(splitStr[i] === '-') {
+      let val = splitStr[i-1] - splitStr[i+1];
+      splitStr = [...splitStr.slice(0, i-1), val, ...splitStr.slice(i+2, splitStr.length)];
+      i--;
     }
   }
-
-    return [leftOp, splitStr[0], rightOp];
-  }
-
-  return [dispResult, pushToCalculator, result, isAC, strStack] as const;
+  return splitStr[0];
 }
