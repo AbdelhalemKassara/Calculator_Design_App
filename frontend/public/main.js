@@ -6,7 +6,6 @@ const isDev = require('electron-is-dev');
 const fs = require('fs');
 let filePath = '';
 let logValues;
-
 let timeOutExists = false;//used to check if a timeout has already been created to save the fiel
 
 function createWindow() {
@@ -44,6 +43,7 @@ app.on('activate', function() {
 });
 
 ipcMain.on('my-message', (event, arg) => {
+
   //if there isn't a file path saved then 
   if(filePath === '') {
     dialog.showSaveDialog({
@@ -53,20 +53,19 @@ ipcMain.on('my-message', (event, arg) => {
     }).then(result => {
       if(!result.canceled) {
         filePath = result.filePath;
-        saveFile(filePath, arg);
+        saveFileInitial(filePath, arg);
       }
     }).catch(err => {
       console.error(err);
     })
   } 
   else {
-    logValues.push(arg);
 
     //creates a timeout if it doesn't exists (so we can avoid writing to the file for everysingle character entered)
     if(!timeOutExists) {
       timeOutExists = true;
       setTimeout(() => {
-        saveFile(filePath, logValues);
+        saveFile(filePath, arg);
         timeOutExists = false;
       }, 5);
     }
@@ -74,32 +73,31 @@ ipcMain.on('my-message', (event, arg) => {
   }
 });
 
-function saveFile(filePath, data) {
-
-  //if the file exists fetch it and
-  if(fs.existsSync(filePath) && logValues === undefined) {
-    fs.readFile(filePath, (err, val) => {
-      if(!err) {
-        logValues = JSON.parse(val);
-        logValues.push(data);
-
-        fs.writeFile(filePath, JSON.stringify(logValues), err => {
-          if(err) {
-            console.error(err);
-          }
-        });
-      } else {
-        console.log(err);
-      }
-    })
+function saveFileInitial(filePath, data) {
+  //If the file already exists get the data from it
+  if(fs.existsSync(filePath)) {
+    logValues = JSON.parse(fs.readFileSync(filePath));//get the file if it exists
   } else {
-    let out = [data];//put the data in an array first
-    fs.writeFile(filePath, JSON.stringify(out), err => {
+    logValues = [];
+  }
+
+  logValues.push(data);
+
+  fs.writeFile(filePath, JSON.stringify(logValues), err => {
+    if (err) {
+      console.error(err);
+    }
+  });
+}
+
+function saveFile(filePath, data) {
+  logValues.push(data);
+
+  fs.writeFile(filePath, JSON.stringify(logValues), err => {
       if (err) {
         console.error(err);
       }
-    })
-  }
+  });
 }
 
 
