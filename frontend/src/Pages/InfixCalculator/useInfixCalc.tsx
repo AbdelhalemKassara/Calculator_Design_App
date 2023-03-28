@@ -9,6 +9,7 @@ export default function useInfixCalc(userName: string) {
   const [dispVal, setDispVal] = useState<('total' | 'strStack')>('total');
   const [usedDot, setUsedDot] = useState<boolean>(false);
   const [logKey] = useKeyLogger(userName, 'infix');
+  const [memory, setMemory] = useState<string>('');
 
   //shove this into a useEffect for strStack
   //and create a function that only 
@@ -24,6 +25,12 @@ export default function useInfixCalc(userName: string) {
       } 
       setStrStack('');
       setDispVal('strStack');
+      return;
+    } else if(lastChar === 's') {
+      setMemory(strStack);
+      return;
+    } else if(lastChar === 'r') {
+      setStrStack(memory);
       return;
     }
      

@@ -9,21 +9,7 @@ interface Props {
   userName : string
 }
 export default function InfixCalculator({userName} : Props): JSX.Element {
-  //const [keyPressed] = useState(() => {return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'c', '/', '*', '+', '-', '.', '=']});
   const [getDispVal, pushToCalculator, isAC, nextOperation] = useInfixCalc(userName);
-  
-  /*
-  useEffect(() => {
-    document.addEventListener('keyup', checkKey);
-
-    function checkKey(e: KeyboardEvent) {
-      if(keyPressed.find(val => e.key === val)) {
-        pushToCalculator(e.key);
-      }
-    }
-    return () => document.removeEventListener('keyup', checkKey);
-  }, [])
-  */
   
   return (<>
     <div className={styles.textContainer}>
