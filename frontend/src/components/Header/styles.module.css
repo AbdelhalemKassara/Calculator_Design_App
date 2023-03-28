@@ -15,11 +15,21 @@
 }
 
 .userName {
-  font-size: medium;
+  font-size: 3vh;
   font-weight: bold;
+  flex: 1fr;
 }
 
 .header {
   height: 9vh;
   background-color: grey;
+}
+
+input {
+  height: 2vh;
+  flex: 1fr;
+}
+
+.userNameContainer {
+  height: 4vh;
 }
