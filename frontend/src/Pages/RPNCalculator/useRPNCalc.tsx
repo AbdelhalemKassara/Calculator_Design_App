@@ -2,17 +2,14 @@ import React, { useState } from 'react'
 
 export default function useRPNCalc() {
   const [stack, setStack] = useState<Array<number>>([0]);
-  const [hasDot, setHasDot] = useState<boolean>(false);
-  const [dpCounter, setDpCounter] = useState<number>(1);//this is needed because of 'rounding error' for floating point numbers repating digit ex 0.005 = 0.004999999999
+  const [curVal, setCurVal] = useState<string>('0');//we are using a string for the current value as we can't store the value accuratly as a number because of floating point number error, ex 0.005 = 0.004999999999
 
   function pushToCalculator(nextChar: string) {
     if(nextChar === '+' || nextChar === '-' || nextChar === '*' || nextChar === '/') {
       computeVals(nextChar);//need check if user presses multiple times
     } 
     else if(nextChar === '=') {
-      setHasDot(false);
-      setDpCounter(0);
-
+      setCurVal('0');
       setStack(cur => {
         let updated = [...cur];
         updated.push(0);
@@ -20,8 +17,8 @@ export default function useRPNCalc() {
       });
     } 
     else if(nextChar === 'c') {
-      setDpCounter(0);
-      setHasDot(false);
+      setCurVal('0');
+
       if(stack[stack.length-1] === 0) {//clear the stack 
         setStack([0]);
       } else {//set the last element to zero
@@ -32,20 +29,17 @@ export default function useRPNCalc() {
         });
       }
     } else if(nextChar === '.') {
-      setHasDot(true);
+      setCurVal(cur => cur + '.');
     }
     else {
       setStack(cur => {
         let tempStack = [...cur];
         let i = tempStack.length-1;
 
-        if(!hasDot) {
-          tempStack[i] = tempStack[i] * 10 + Number(nextChar);
-        } else {
-          tempStack[i] = Number(tempStack[i].toFixed(dpCounter)) + Number(nextChar) / (Math.pow(10, dpCounter));//this fixes most issues with storing the current value as a number but it will probably better to change the current value back to a string and convert when needed
-          setDpCounter(dpCounter+1);
-        }
-
+        let newVal = (curVal === '0' ? '' : curVal) + nextChar;
+        setCurVal(newVal);
+        tempStack[i] = Number(newVal);
+      
         return tempStack;
       });
 
@@ -53,16 +47,16 @@ export default function useRPNCalc() {
   }
 
   function computeVals(operation:('+' | '-' | '/' | '*')) {
-    setHasDot(false);
-    setDpCounter(0);
-
+   
     setStack(cur => {
       let updated = [...cur];
+      updated[updated.length-1] = Number(curVal);
       let lastVal = updated.pop();
       let valBefore = updated.pop();
 
       if(lastVal !== undefined && valBefore !== undefined) {
         updated.push(performOperation(valBefore, operation, lastVal));
+        setCurVal(String(updated[updated.length-1]));
         return updated;
       } 
       else {
@@ -75,7 +69,7 @@ export default function useRPNCalc() {
     return stack[stack.length-1] === 0;
   }
 
-  return [pushToCalculator, isAC, stack[stack.length-1]] as const;
+  return [pushToCalculator, isAC, curVal] as const;
 }
 
 
