@@ -1,7 +1,7 @@
 @import url('../styles.module.css');
 
-p {
-  display: inline;
+.val {
+  display: block;
   font-size: 8vmin;
 }
 
