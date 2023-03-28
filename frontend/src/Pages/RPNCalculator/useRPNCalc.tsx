@@ -69,7 +69,7 @@ export default function useRPNCalc() {
     return stack[stack.length-1] === 0;
   }
 
-  return [pushToCalculator, isAC, curVal] as const;
+  return [pushToCalculator, isAC, curVal, stack] as const;
 }
 
 

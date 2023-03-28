@@ -1,0 +1,31 @@
+@import url('../styles.module.css');
+
+p {
+  display: inline;
+  font-size: 8vmin;
+}
+
+.arrowButton {
+  color: black;
+}
+
+.displayContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.textContainer {
+  height: 20vh;
+  overflow: auto;
+  width: 100vw;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  background-color: rgb(105, 104, 104);  
+  flex-grow: 1;
+}
