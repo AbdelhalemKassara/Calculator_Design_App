@@ -67,6 +67,7 @@ export default function useRPNCalc(userName: string) {
 
       if(lastVal !== undefined && valBefore !== undefined) {
         updated.push(performOperation(valBefore, operation, lastVal));
+        updated.push(0);
         setCurVal(String(updated[updated.length-1]));
         return updated;
       } 
