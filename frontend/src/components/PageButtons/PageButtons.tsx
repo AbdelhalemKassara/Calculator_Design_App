@@ -26,8 +26,8 @@ export default function PageButtons({calcType, pushToCalculator, isAC} : Props) 
       })()}
 
       <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator('c')}>{isAC()? 'AC' : 'C'}</button>
-      <button className={`${buttonStyle} ${styles.optionBut}`}>M</button>
-      <button className={`${buttonStyle} ${styles.optionBut}`}>MR</button>
+      <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator('s')}>MS</button>
+      <button className={`${buttonStyle} ${styles.optionBut}`} onClick={() => pushToCalculator('r')}>MR</button>
       <button className={`${buttonStyle} ${styles.operationBut}`} onClick={() => pushToCalculator('/')}>/</button>
 
       <button className={`${buttonStyle} ${styles.numberBut}`} onClick={() => pushToCalculator('7')}>7</button>

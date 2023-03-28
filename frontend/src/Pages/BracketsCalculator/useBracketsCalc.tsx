@@ -8,6 +8,7 @@ export default function useBracketsCalc(userName: string) {
   const [bracketsCount, setBrackCount] = useState<number>(0);
   const [operations] = useState(() => {return ['/', '*', '+', '-']});
   const [logKey] = useKeyLogger(userName, 'brackets');
+  const [memory, setMemory] = useState('');
 
   function pushToCalculator(nextChar: string) {
     logKey(nextChar);
@@ -19,7 +20,11 @@ export default function useBracketsCalc(userName: string) {
         setDispResult(true);
         return;  
       }
-    } 
+    } else if(nextChar === 's') {
+      setMemory(strStack);
+    } else if(nextChar === 'r') {
+      setStrStack(memory);
+    }
     else if(nextChar === 'c') {
       setStrStack('');
     } 
