@@ -6,6 +6,7 @@ export default function useRPNCalc(userName: string) {
   const [stack, setStack] = useState<Array<number>>([0]);
   const [curVal, setCurVal] = useState<string>('0');//we are using a string for the current value as we can't store the value accuratly as a number because of floating point number error, ex 0.005 = 0.004999999999
   const [logKey] = useKeyLogger(userName, 'rpn');
+  const [memory, setMemory] = useState<string>('');
 
   function pushToCalculator(nextChar: string) {
     logKey(nextChar);
@@ -20,7 +21,11 @@ export default function useRPNCalc(userName: string) {
         updated.push(0);
         return updated;
       });
-    } 
+    } else if(nextChar === 's') {
+      setMemory(curVal);
+    } else if(nextChar === 'r') {
+      setCurVal(memory);
+    }
     else if(nextChar === 'c') {
       setCurVal('0');
 
@@ -33,7 +38,8 @@ export default function useRPNCalc(userName: string) {
           return tempArr;
         });
       }
-    } else if(nextChar === '.') {
+    } 
+    else if(nextChar === '.') {
       setCurVal(cur => cur + '.');
     }
     else {
