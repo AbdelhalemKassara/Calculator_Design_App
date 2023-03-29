@@ -119,7 +119,6 @@ function processString(inString: any) {
   console.log(splitStr);
   let i = 0;
   while(splitStr.length !== 1) {
-
     if(splitStr[i] === ')') {
       let str = computeBEDMAS(splitStr[i-1]);
 
@@ -140,6 +139,7 @@ function processString(inString: any) {
       splitStr = [...splitStr.slice(0, i-leftOff), str, ...splitStr.slice(rightOff, splitStr.length)]; //since the format is ( ,stuff, ) and we are at )
       i = 0;
     }
+    console.log(splitStr);
     i++;
   }
 
@@ -147,14 +147,14 @@ function processString(inString: any) {
 }
 
 function computeBEDMAS(string: any) {
-  let splitStr = string.split(/(?=[+*-//])|(?<=[+*-//])/g);//splits based on the operator and leaves it in as it's own character
+  let splitStr = string.split(/(?=[+*\-/])|(?<=[+*\-/])/g);//splits based on the operator and leaves it in as it's own character
   //covert everything that is a number to a number
   for(let i = 0; i < splitStr.length; i++) {
     if(!isNaN(splitStr[i])) {
       splitStr[i] = Number(splitStr[i]);
     }
   }
-
+  console.log(splitStr);
   //division/multiplication
   for(let i = 0; i < splitStr.length; i++) {
     if(splitStr[i] === '/') {
