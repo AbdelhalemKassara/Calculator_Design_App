@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useKeyLogger from '../../components/KeyLogger/useKeyLogger';
 
 
@@ -7,7 +7,8 @@ export default function useRPNCalc(userName: string) {
   const [curVal, setCurVal] = useState<string>('0');//we are using a string for the current value as we can't store the value accuratly as a number because of floating point number error, ex 0.005 = 0.004999999999
   const [logKey] = useKeyLogger(userName, 'rpn');
   const [memory, setMemory] = useState<string>('');
-
+  const [totalIsCur, setTotalIsCur] = useState<boolean>(false);
+  
   function pushToCalculator(nextChar: string) {
     logKey(nextChar);
 
@@ -45,18 +46,28 @@ export default function useRPNCalc(userName: string) {
     else {
       setStack(cur => {
         let tempStack = [...cur];
-        let i = tempStack.length-1;
 
-        let newVal = (curVal === '0' ? '' : curVal) + nextChar;
+        
+        let newVal;
+        if(totalIsCur) {
+          console.log(curVal);
+          tempStack.push(Number(curVal));
+          setTotalIsCur(false);
+          newVal = nextChar;
+        } else {
+          newVal = (curVal === '0' ? '' : curVal) + nextChar;
+        }
         setCurVal(newVal);
-        tempStack[i] = Number(newVal);
+        tempStack[tempStack.length-1] = Number(newVal);
       
         return tempStack;
       });
 
     } 
   }
-
+  useEffect(() => {
+    console.log(stack);
+  }, [stack])
   function computeVals(operation:('+' | '-' | '/' | '*')) {
    
     setStack(cur => {
@@ -66,8 +77,10 @@ export default function useRPNCalc(userName: string) {
       let valBefore = updated.pop();
 
       if(lastVal !== undefined && valBefore !== undefined) {
-        updated.push(performOperation(valBefore, operation, lastVal));
-        setCurVal(String(updated[updated.length-1]));
+        let computedVal = performOperation(valBefore, operation, lastVal)
+        updated.push(computedVal);
+        setCurVal(String(computedVal));
+        setTotalIsCur(true);
         return updated;
       } 
       else {
