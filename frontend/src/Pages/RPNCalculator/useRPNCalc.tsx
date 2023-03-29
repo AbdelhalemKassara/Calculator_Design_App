@@ -7,8 +7,7 @@ export default function useRPNCalc(userName: string) {
   const [curVal, setCurVal] = useState<string>('0');//we are using a string for the current value as we can't store the value accuratly as a number because of floating point number error, ex 0.005 = 0.004999999999
   const [logKey] = useKeyLogger(userName, 'rpn');
   const [memory, setMemory] = useState<string>('');
-  const [pushedTotal, setPushedTotal] = useState<boolean>(false);
-  
+
   function pushToCalculator(nextChar: string) {
     logKey(nextChar);
 
@@ -16,10 +15,10 @@ export default function useRPNCalc(userName: string) {
       computeVals(nextChar);//need check if user presses multiple times
     } 
     else if(nextChar === '=') {
-      setPushedTotal(true);
+      setCurVal('0');
       setStack(cur => {
         let updated = [...cur];
-        updated.push(updated[updated.length-1]);
+        updated.push(0);
         return updated;
       });
     } else if(nextChar === 's') {
@@ -47,23 +46,17 @@ export default function useRPNCalc(userName: string) {
       setStack(cur => {
         let tempStack = [...cur];
         let i = tempStack.length-1;
-        if(pushedTotal) {
-          let newVal = nextChar;
-          setCurVal(newVal);
-          tempStack[i] = Number(newVal);
-          setPushedTotal(false);
-        } else {
-          let newVal = (curVal === '0' ? '' : curVal) + nextChar;
-          setCurVal(newVal);
-          tempStack[i] = Number(newVal);  
-        }
+
+        let newVal = (curVal === '0' ? '' : curVal) + nextChar;
+        setCurVal(newVal);
+        tempStack[i] = Number(newVal);
       
         return tempStack;
       });
 
     } 
   }
-  
+
   function computeVals(operation:('+' | '-' | '/' | '*')) {
    
     setStack(cur => {
@@ -73,10 +66,7 @@ export default function useRPNCalc(userName: string) {
       let valBefore = updated.pop();
 
       if(lastVal !== undefined && valBefore !== undefined) {
-        let val = performOperation(valBefore, operation, lastVal);
-        updated.push(val);
-        updated.push(val);
-        setPushedTotal(true);
+        updated.push(performOperation(valBefore, operation, lastVal));
         setCurVal(String(updated[updated.length-1]));
         return updated;
       } 
