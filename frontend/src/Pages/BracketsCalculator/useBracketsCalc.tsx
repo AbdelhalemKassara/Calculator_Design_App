@@ -26,12 +26,14 @@ export default function useBracketsCalc(userName: string) {
       setStrStack(memory);
     }
     else if(nextChar === 'c') {
+      setBrackCount(0);
       setStrStack('');
     } 
     else if(nextChar === '(') {
       //check if there is an operation before adding a '('
       const prevChar = strStack.charAt(strStack.length-1);
-      if(prevChar === '(' || operations.find(op => op === prevChar)) {
+
+      if(prevChar === '(' || operations.find(op => op === prevChar) || strStack.length === 0) {
         setBrackCount(curCount => curCount + 1);
         setStrStack(curStr => curStr + nextChar);  
       }
@@ -81,12 +83,13 @@ export default function useBracketsCalc(userName: string) {
     if(operations.find(op => op === outStr.charAt(outStr.length-1))) {
       outStr = strStack.slice(0, outStr.length - 1);
     }
+    console.log(bracketsCount);
 
     //adds any missing closing brackets
     for(let i = 0; i < bracketsCount; i++) {
       outStr += ')';
     }
-
+    console.log(outStr);
     setResult(processString(outStr));
     setStrStack(outStr);
   }
@@ -113,7 +116,7 @@ function processString(inString: any) {
 
   inString = "(" + inString + ")";
   let splitStr = inString.split(/(?=[\(\)])|(?<=[\(\)])/g); //regex for splitting on ( or ) and leaving the character
-
+  console.log(splitStr);
   let i = 0;
   while(splitStr.length !== 1) {
 
@@ -178,5 +181,5 @@ function computeBEDMAS(string: any) {
       i--;
     }
   }
-  return splitStr[0];
+  return String(splitStr[0]);
 }
