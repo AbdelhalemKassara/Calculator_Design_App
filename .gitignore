@@ -1,5 +1,7 @@
 .DS_Store
 out
+build
+
 # Logs
 logs
 *.log

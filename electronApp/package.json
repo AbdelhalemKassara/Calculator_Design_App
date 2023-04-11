@@ -17,8 +17,8 @@
     "papaparse": "^5.4.1"
   },
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "makeWFront": "yarn --cwd ../frontend build && cp -r ../frontend/build build && yarn electron-forge make",
+    "packageWFront" : "yarn --cwd ../frontend build && cp -r ../frontend/build build && yarn electron-forge package",
+    "startWFront": "yarn --cwd ../frontend build && cp -r ../frontend/build build && yarn electron-forge start"
   }
 }
