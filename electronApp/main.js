@@ -1,8 +1,6 @@
 const {app, BrowserWindow, ipcMain, dialog } = require('electron');
 
 require('@electron/remote/main').initialize();
-const path = require('path');
-const isDev = require('electron-is-dev');
 const fs = require('fs');
 const papaparse = require('papaparse');
 
@@ -24,7 +22,7 @@ function createWindow() {
     }
   })
 
-  win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+  win.loadFile('../frontend/build/index.html');
 }
 
 
