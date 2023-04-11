@@ -22,7 +22,7 @@ function createWindow() {
     }
   })
 
-  win.loadFile('../frontend/build/index.html');
+  win.loadFile('./build/index.html');
 }
 
 
